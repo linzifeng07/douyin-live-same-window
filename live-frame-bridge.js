@@ -23,8 +23,13 @@
       : [];
 
     for (const node of path) {
-      if (node instanceof HTMLAnchorElement) {
-        const url = normalizeLiveUrl(node.href);
+      if (node instanceof Element) {
+        const rawUrl = node.matches?.("a[href]")
+          ? node.href
+          : node.getAttribute?.("data-url")
+            || node.getAttribute?.("data-href")
+            || node.getAttribute?.("data-link");
+        const url = normalizeLiveUrl(rawUrl);
         if (url) {
           return url;
         }
