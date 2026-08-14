@@ -134,6 +134,21 @@
     const iframe = document.createElement("iframe");
     iframe.src = url;
     iframe.title = "抖音直播间";
+    // Douyin sometimes navigates window.top when the user chooses another
+    // connected streamer.  Keep the live page fully functional, but do not
+    // let it replace the PWA's top-level www.douyin.com document.  Without
+    // this boundary Chrome leaves the installed-app scope and shows its
+    // cross-origin white safety bar.
+    iframe.setAttribute("sandbox", [
+      "allow-same-origin",
+      "allow-scripts",
+      "allow-forms",
+      "allow-popups",
+      "allow-modals",
+      "allow-downloads",
+      "allow-pointer-lock",
+      "allow-presentation"
+    ].join(" "));
     iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
     iframe.allowFullscreen = true;
     iframe.referrerPolicy = "strict-origin-when-cross-origin";
