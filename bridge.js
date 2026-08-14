@@ -7,8 +7,17 @@
   let previouslyPlayingMedia = [];
 
   function normalizeLiveUrl(rawUrl) {
+    if (rawUrl == null) {
+      return null;
+    }
+
+    const text = String(rawUrl).trim();
+    if (!text || text === "null" || text === "undefined") {
+      return null;
+    }
+
     try {
-      const url = new URL(rawUrl, location.href);
+      const url = new URL(text, location.href);
       if (url.protocol !== "https:" || url.hostname !== LIVE_HOST) {
         return null;
       }
@@ -150,7 +159,6 @@
       "allow-presentation"
     ].join(" "));
     iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
-    iframe.allowFullscreen = true;
     iframe.referrerPolicy = "strict-origin-when-cross-origin";
     Object.assign(iframe.style, {
       position: "absolute",

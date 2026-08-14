@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "抖音直播同窗口打开",
-  "version": "2.1.2",
+  "version": "2.1.5",
   "description": "从抖音网页进入直播时，在当前窗口内显示直播间，避开跨域应用提示栏。",
   "minimum_chrome_version": "111",
   "icons": {
