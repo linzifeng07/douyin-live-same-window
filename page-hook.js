@@ -5,8 +5,17 @@
   const originalOpen = window.open.bind(window);
 
   function normalizeLiveUrl(rawUrl) {
+    if (rawUrl == null) {
+      return null;
+    }
+
+    const text = String(rawUrl).trim();
+    if (!text || text === "null" || text === "undefined") {
+      return null;
+    }
+
     try {
-      const url = new URL(String(rawUrl), location.href);
+      const url = new URL(text, location.href);
       if (url.protocol !== "https:" || url.hostname !== LIVE_HOST) {
         return null;
       }

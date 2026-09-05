@@ -7,8 +7,17 @@
   let previouslyPlayingMedia = [];
 
   function normalizeLiveUrl(rawUrl) {
+    if (rawUrl == null) {
+      return null;
+    }
+
+    const text = String(rawUrl).trim();
+    if (!text || text === "null" || text === "undefined") {
+      return null;
+    }
+
     try {
-      const url = new URL(rawUrl, location.href);
+      const url = new URL(text, location.href);
       if (url.protocol !== "https:" || url.hostname !== LIVE_HOST) {
         return null;
       }
@@ -20,6 +29,7 @@
 
   function closeLiveOverlay() {
     document.getElementById(OVERLAY_ID)?.remove();
+    document.dispatchEvent(new Event("__douyin_live_after_close__"));
     if (restoreOverflow) {
       restoreOverflow();
       restoreOverflow = null;
@@ -78,6 +88,7 @@
       return;
     }
 
+    document.dispatchEvent(new Event("__douyin_live_before_open__"));
     const existing = document.getElementById(OVERLAY_ID);
     if (existing) {
       pauseBackgroundMedia();
@@ -150,7 +161,6 @@
       "allow-presentation"
     ].join(" "));
     iframe.allow = "autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture";
-    iframe.allowFullscreen = true;
     iframe.referrerPolicy = "strict-origin-when-cross-origin";
     Object.assign(iframe.style, {
       position: "absolute",
