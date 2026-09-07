@@ -29,7 +29,6 @@
 
   function closeLiveOverlay() {
     document.getElementById(OVERLAY_ID)?.remove();
-    document.dispatchEvent(new Event("__douyin_live_after_close__"));
     if (restoreOverflow) {
       restoreOverflow();
       restoreOverflow = null;
@@ -88,7 +87,6 @@
       return;
     }
 
-    document.dispatchEvent(new Event("__douyin_live_before_open__"));
     const existing = document.getElementById(OVERLAY_ID);
     if (existing) {
       pauseBackgroundMedia();
